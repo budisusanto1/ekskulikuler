@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Match header dark theme */
         body {
             background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
             min-height: 100vh;
@@ -31,13 +30,13 @@
             margin-bottom: 30px;
         }
         
-        /* Tabs matching header style */
         .nav-tabs {
             border: none;
             margin-bottom: 30px;
             background: rgba(0,0,0,0.2);
             padding: 10px;
             border-radius: 10px;
+            flex-wrap: wrap;
         }
         
         .nav-tabs .nav-link {
@@ -46,7 +45,7 @@
             font-weight: 600;
             padding: 12px 20px;
             border-radius: 8px;
-            margin: 0 5px;
+            margin: 5px;
             transition: all 0.3s;
         }
         
@@ -60,7 +59,6 @@
             color: white;
         }
         
-        /* Button matching header */
         .btn-custom-add {
             background-color: #292F36;
             color: white;
@@ -78,7 +76,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
         
-        /* Table wrapper dark theme */
         .table-wrapper {
             background: #2c3e50;
             border-radius: 12px;
@@ -115,7 +112,6 @@
             color: rgba(255,255,255,0.9);
         }
         
-        /* Action buttons */
         .btn-warning {
             background-color: #edb047 !important;
             border: none !important;
@@ -138,7 +134,6 @@
             transform: scale(1.1);
         }
         
-        /* DataTables dark theme */
         .dataTables_wrapper {
             color: white;
         }
@@ -238,15 +233,15 @@
                                         <th>Username</th>
                                         <th>Email</th>
                                         <th>Level</th>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <th>Aksi</th>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $ms = 1;
-                                    foreach ($user as $value) {
+                                    foreach ($user as $key => $value) {
                                     ?>
                                     <tr>
                                         <td><?= $ms++ ?></td>
@@ -254,22 +249,27 @@
                                         <td><?= $value->email ?></td>
                                         <td>
                                             <?php
-                                            if ($value->level == 1) echo 'Admin';
-                                            elseif ($value->level == 2) echo 'Guru';
-                                            elseif ($value->level == 3) echo 'Siswa';
-                                            else echo 'Unknown';
+                                            if ($value->level == 1) {
+                                                echo 'Admin';
+                                            } elseif ($value->level == 2) {
+                                                echo 'Guru';
+                                            } elseif ($value->level == 3) {
+                                                echo 'Siswa';
+                                            } else {
+                                                echo 'Unknown';
+                                            }
                                             ?>
                                         </td>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <td>
                                             <a href="<?= base_url('/edituser/' . $value->id_user) ?>" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="<?= base_url('deleteuser/' . $value->id_user) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus data?');">
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deleteuser/' . $value->id_user) ?>" onclick="return confirm('Are you sure?');">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -289,22 +289,29 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Level</th>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <th>Aksi</th>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $ms = 1; foreach ($level as $value) { ?>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($level as $key => $value) {
+                                    ?>
                                     <tr>
                                         <td><?= $ms++ ?></td>
                                         <td><?= $value->nama_level ?></td>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <td>
-                                            <a href="<?= base_url('/editlevel/' . $value->id_level) ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a href="<?= base_url('deletelevel/' . $value->id_level) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?');"><i class="fa fa-trash"></i></a>
+                                            <a href="<?= base_url('/editlevel/' . $value->id_level) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deletelevel/' . $value->id_level) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
                                         </td>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -323,31 +330,38 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>NIS</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Nama Siswa</th>
+                                        <th>Nis</th>
+                                            <th>Nama Siswa</th>
+                                        <th>jenis kelamin</th>
+                                        <th>tanggal lahir</th>
                                         <th>Rombel</th>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <th>Aksi</th>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $ms = 1; foreach ($siswa as $value) { ?>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($siswa as $key => $value) {
+                                    ?>
                                     <tr>
                                         <td><?= $ms++ ?></td>
                                         <td><?= $value->nis ?></td>
-                                        <td><?= $value->username ?></td>
-                                        <td><?= $value->email ?></td>
-                                        <td><?= $value->nama_siswa ?></td>
+                                             <td><?= $value->nama_siswa ?></td>
+                                        <td><?= $value->jenis_kelamin ?></td>
+                                        <td><?= $value->tanggal_lahir ?></td>
                                         <td><?= $value->nama_rombel ?></td>
-                                        <?php if (in_array(session()->get('level'), [1, 2, 3, 4])): ?>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
                                         <td>
-                                            <a href="<?= base_url('/editsiswa/' . $value->id_siswa) ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a href="<?= base_url('deletesiswa/' . $value->id_siswa) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?');"><i class="fa fa-trash"></i></a>
+                                            <a href="<?= base_url('/editsiswa/' . $value->id_siswa) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deletesiswa/' . $value->id_siswa) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
                                         </td>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -355,8 +369,232 @@
                         </div>
                     </div>
 
-                    <!-- Kelas, Jurusan, Rombel, Guru, Ekskul tables follow same pattern -->
-                    <!-- Abbreviated for space, but they use the same dark theme styling -->
+                    <!-- Kelas Table -->
+                    <div class="tab-pane fade" id="kelas-table" role="tabpanel">
+                        <a href="<?= base_url('/formdata') ?>" class="btn btn-custom-add mb-3">
+                            <i class="fa fa-plus me-2"></i>Tambah Kelas
+                        </a>
+                        
+                        <div class="table-wrapper">
+                            <table id="kelasTable" class="table table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Kelas</th>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($kelas as $key => $value) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $ms++ ?></td>
+                                        <td><?= $value->nama_kelas ?></td>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <td>
+                                            <a href="<?= base_url('/editkelas/' . $value->id_kelas) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deletekelas/' . $value->id_kelas) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Jurusan Table -->
+                    <div class="tab-pane fade" id="jurusan-table" role="tabpanel">
+                        <a href="<?= base_url('/formdata') ?>" class="btn btn-custom-add mb-3">
+                            <i class="fa fa-plus me-2"></i>Tambah Jurusan
+                        </a>
+                        
+                        <div class="table-wrapper">
+                            <table id="jurusanTable" class="table table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Jurusan</th>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($jurusan as $key => $value) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $ms++ ?></td>
+                                        <td><?= $value->nama_jurusan ?></td>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <td>
+                                            <a href="<?= base_url('/editjurusan/' . $value->id_jurusan) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deletejurusan/' . $value->id_jurusan) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Rombel Table -->
+                    <div class="tab-pane fade" id="rombel-table" role="tabpanel">
+                        <a href="<?= base_url('/formdata') ?>" class="btn btn-custom-add mb-3">
+                            <i class="fa fa-plus me-2"></i>Tambah Rombel
+                        </a>
+                        
+                        <div class="table-wrapper">
+                            <table id="rombelTable" class="table table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Rombel</th>
+                                        <th>Kelas</th>
+                                        <th>Jurusan</th>
+                                        <th>Guru</th>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($rombel as $key => $value) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $ms++ ?></td>
+                                        <td><?= $value->nama_rombel ?></td>
+                                        <td><?= $value->nama_kelas ?></td>
+                                        <td><?= $value->nama_jurusan ?></td>
+                                        <td><?= $value->nama_guru ?></td>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <td>
+                                            <a href="<?= base_url('/editrombel/' . $value->id_rombel) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deleterombel/' . $value->id_rombel) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Guru Table -->
+                    <div class="tab-pane fade" id="guru-table" role="tabpanel">
+                        <a href="<?= base_url('/formdata') ?>" class="btn btn-custom-add mb-3">
+                            <i class="fa fa-plus me-2"></i>Tambah Guru
+                        </a>
+                        
+                        <div class="table-wrapper">
+                            <table id="guruTable" class="table table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nip</th>
+                                         <th>Nama Guru</th>
+                                        <th>jenis kelaimin</th>
+                                        <th>tanggal lahir</th>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($guru as $key => $value) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $ms++ ?></td>
+                                        <td><?= $value->nip ?></td>
+                                        <td><?= $value->nama_guru ?></td>
+                                        <td><?= $value->jenis_kelamin ?></td>
+                                        <td><?= $value->tanggal_lahir ?></td>
+                                        
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <td>
+                                            <a href="<?= base_url('/editguru/' . $value->id_guru) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deleteguru/' . $value->id_guru) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Ekskul Table -->
+                    <div class="tab-pane fade" id="ekskul-table" role="tabpanel">
+                        <a href="<?= base_url('/formdata') ?>" class="btn btn-custom-add mb-3">
+                            <i class="fa fa-plus me-2"></i>Tambah Ekskul
+                        </a>
+                        
+                        <div class="table-wrapper">
+                            <table id="ekskulTable" class="table table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Ekskul</th>
+                                        <th>Guru</th>
+                                        <th>Kuota</th>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $ms = 1;
+                                    foreach ($ekskul as $key => $value) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $ms++ ?></td>
+                                        <td><?= $value->nama_ekskul ?></td>
+                                        <td><?= $value->nama_guru ?></td>
+                                        <td><?= $value->kuota ?></td>
+                                        <?php if (session()->get('level') == 1 || session()->get('level') == 2 || session()->get('level') == 3 || session()->get('level') == 4) { ?>
+                                        <td>
+                                            <a href="<?= base_url('/editekskul/' . $value->id_ekskul) ?>" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm delete-btn" href="<?= base_url('deleteekskul/' . $value->id_ekskul) ?>" onclick="return confirm('Are you sure?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -387,8 +625,10 @@ $(document).ready(function() {
         destroy: true
     };
 
+    // Initialize first table
     $('#userTable').DataTable(tableConfig);
 
+    // Initialize tables when tab is shown
     $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
         const target = $(e.target).data('bs-target');
         const tableId = $(target).find('table').attr('id');

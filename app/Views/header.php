@@ -138,7 +138,7 @@
     
     <!-- Auto Logout Script -->
     <script>
-      var timeout = 300; // Waktu dalam detik (5 menit)
+      var timeout = 1000; // Waktu dalam detik (5 menit)
       var logoutUrl = "<?= site_url('home/logout') ?>";
       var resetTime = timeout * 1000; // Konversi ke milidetik
 

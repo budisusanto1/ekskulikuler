@@ -7,41 +7,93 @@
 
         <form action="<?= base_url('/simpansiswa') ?>" method="POST" enctype="multipart/form-data">
           <table style="width: 100%;">
+            <!-- NIS -->
             <tr>
               <td style="padding-bottom: 10px;"><label for="nis" style="font-weight: 500; color: #292F36;">NIS</label></td>
               <td style="padding-bottom: 10px;">
                 <input type="text" class="form-control" id="nis" name="nis" value="<?= $siswa->nis ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
               </td>
             </tr>
+
+            <!-- Nama Siswa -->
             <tr>
               <td style="padding-bottom: 10px;"><label for="nama_siswa" style="font-weight: 500; color: #292F36;">Nama Siswa</label></td>
               <td style="padding-bottom: 10px;">
                 <input type="text" class="form-control" id="nama_siswa" name="nama_siswa" value="<?= $siswa->nama_siswa ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
               </td>
             </tr>
+
+            <!-- Tempat Lahir -->
+            <tr>
+              <td style="padding-bottom: 10px;"><label for="tempat_lahir" style="font-weight: 500; color: #292F36;">Tempat Lahir</label></td>
+              <td style="padding-bottom: 10px;">
+                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" value="<?= $siswa->tempat_lahir ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
+              </td>
+            </tr>
+
+            <!-- Tanggal Lahir -->
+            <tr>
+              <td style="padding-bottom: 10px;"><label for="tanggal_lahir" style="font-weight: 500; color: #292F36;">Tanggal Lahir</label></td>
+              <td style="padding-bottom: 10px;">
+                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="<?= $siswa->tanggal_lahir ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
+              </td>
+            </tr>
+
+            <!-- Jenis Kelamin -->
+            <tr>
+              <td style="padding-bottom: 10px;"><label for="jenis_kelamin" style="font-weight: 500; color: #292F36;">Jenis Kelamin</label></td>
+              <td style="padding-bottom: 10px;">
+                <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
+                  <option value="">--Pilih Jenis Kelamin--</option>
+                  <option value="Laki-laki" <?= ($siswa->jenis_kelamin == 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
+                  <option value="Perempuan" <?= ($siswa->jenis_kelamin == 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
+                </select>
+              </td>
+            </tr>
+
+            <!-- Alamat -->
+            <tr>
+              <td style="padding-bottom: 10px;"><label for="alamat" style="font-weight: 500; color: #292F36;">Alamat</label></td>
+              <td style="padding-bottom: 10px;">
+                <textarea class="form-control" id="alamat" name="alamat" rows="3" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;"><?= $siswa->alamat ?></textarea>
+              </td>
+            </tr>
+
+            <!-- No HP -->
+            <tr>
+              <td style="padding-bottom: 10px;"><label for="no_hp" style="font-weight: 500; color: #292F36;">No. HP</label></td>
+              <td style="padding-bottom: 10px;">
+                <input type="text" class="form-control" id="no_hp" name="no_hp" value="<?= $siswa->no_hp ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
+              </td>
+            </tr>
+
+            <!-- Username -->
             <tr>
               <td style="padding-bottom: 10px;"><label for="username" style="font-weight: 500; color: #292F36;">Username</label></td>
               <td style="padding-bottom: 10px;">
                 <input type="text" class="form-control" id="username" name="username" value="<?= $siswa->username ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
               </td>
             </tr>
+
+            <!-- Email -->
             <tr>
               <td style="padding-bottom: 10px;"><label for="email" style="font-weight: 500; color: #292F36;">Email</label></td>
               <td style="padding-bottom: 10px;">
                 <input type="email" class="form-control" id="email" name="email" value="<?= $siswa->email ?>" style="border: 1px solid #8F7A6E; border-radius: 8px; padding: 0.6rem; width: 100%;">
               </td>
             </tr>
+
+            <!-- Password -->
             <tr>
               <td style="padding-bottom: 10px;">
                 <label>Password (Kosongkan jika tidak diubah)</label>
               </td>
               <td>
-                <input type="password"
-                  class="form-control"
-                  name="password"
-                  placeholder="Kosongkan jika tidak diubah">
+                <input type="password" class="form-control" name="password" placeholder="Kosongkan jika tidak diubah">
               </td>
             </tr>
+
+            <!-- Rombel -->
             <tr>
               <td style="padding-bottom: 10px;"><label for="id_rombel" style="font-weight: 500; color: #292F36;">Rombel</label></td>
               <td style="padding-bottom: 10px;">
@@ -55,6 +107,8 @@
                 </select>
               </td>
             </tr>
+
+            <!-- Buttons -->
             <tr>
               <td></td>
               <td style="padding-top: 10px;">

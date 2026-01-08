@@ -193,6 +193,33 @@
         .btn-success.export-btn i {
             font-size: 1.1rem;
         }
+
+        /* Print Button */
+        .btn-info.print-btn {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            margin-left: 10px;
+        }
+
+        .btn-info.print-btn:hover {
+            background: linear-gradient(135deg, #138496 0%, #117a8b 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(23, 162, 184, 0.4);
+        }
+
+        .btn-info.print-btn i {
+            font-size: 1.1rem;
+        }
         
         /* Table Container */
         .table-container {
@@ -549,6 +576,12 @@
                         <span>Export Excel</span>
                     </a>
 
+                    <!-- Print Button -->
+                    <button class="btn btn-info print-btn" onclick="printTable()">
+                        <i class="fas fa-print"></i>
+                        <span>Print</span>
+                    </button>
+
                     <!-- Penilaian Table -->
                     <div class="tab-pane fade show active" id="penilaian-table" role="tabpanel">
                         <div class="table-container">
@@ -768,7 +801,7 @@
                     if (res.success) {
                         showSaveIndicator();
                         console.log('Nilai tersimpan');
-                        
+
                         // Visual feedback
                         $row.css('background-color', '#d4edda');
                         setTimeout(function() {
@@ -783,6 +816,163 @@
                 }
             });
         });
+
+        // Print functionality
+        window.printTable = function() {
+            // Create a new window for printing
+            var printWindow = window.open('', '_blank');
+
+            // Get the table content
+            var tableContent = $('#penilaianTable').clone();
+
+            // Remove search inputs from headers
+            tableContent.find('.column-search').remove();
+
+            // Determine column indices based on user level
+            var hasSiswaColumn = <?= session()->get('level') == 1 || session()->get('level') == 2 ? 'true' : 'false' ?>;
+            var totalColumns = tableContent.find('tbody tr:first td').length;
+            var nilaiIndex = hasSiswaColumn ? 3 : 2;
+            var predikatIndex = hasSiswaColumn ? 4 : 3;
+            var catatanIndex = totalColumns - 1; // Catatan is always the last column
+
+            console.log('User level:', <?= session()->get('level') ?>);
+            console.log('Has Siswa column:', hasSiswaColumn);
+            console.log('Total columns:', totalColumns);
+            console.log('Catatan index:', catatanIndex);
+            console.log('Table rows:', tableContent.find('tbody tr').length);
+
+            // Clean up table cells - remove form controls and show values
+            tableContent.find('tbody tr').each(function() {
+                var $row = $(this);
+
+                // Handle nilai column
+                var nilaiCell = $row.find('td').eq(nilaiIndex);
+                if (nilaiCell.find('.nilai-input').length > 0) {
+                    var nilaiValue = nilaiCell.find('.nilai-input').val() || 'Belum diisi';
+                    nilaiCell.html('<div style="text-align: center; font-weight: 600;">' + nilaiValue + '</div>');
+                } else {
+                    // For view-only mode, keep the badge text
+                    var badgeText = nilaiCell.find('.badge').text();
+                    nilaiCell.html('<div style="text-align: center; font-weight: 600;">' + badgeText + '</div>');
+                }
+
+                // Handle predikat column
+                var predikatCell = $row.find('td').eq(predikatIndex);
+                if (predikatCell.find('.predikat-select').length > 0) {
+                    var predikatValue = predikatCell.find('.predikat-select option:selected').text() || 'Belum diisi';
+                    predikatCell.html('<div style="text-align: center; font-weight: 600;">' + predikatValue + '</div>');
+                } else {
+                    // For view-only mode, keep the badge text
+                    var badgeText = predikatCell.find('.badge').text();
+                    predikatCell.html('<div style="text-align: center; font-weight: 600;">' + badgeText + '</div>');
+                }
+
+                // Handle catatan column
+                var catatanCell = $row.find('td').eq(catatanIndex);
+                if (catatanCell.find('.catatan-input').length > 0) {
+                    var catatanValue = catatanCell.find('.catatan-input').val() || 'Belum diisi';
+                    catatanCell.html('<div style="font-weight: 500;">' + catatanValue + '</div>');
+                } else {
+                    // For view-only mode, keep the text
+                    var text = catatanCell.text().trim() || 'Belum diisi';
+                    catatanCell.html('<div style="font-weight: 500;">' + text + '</div>');
+                }
+            });
+
+            // Create print-friendly HTML
+            var printContent = `
+                <!DOCTYPE html>
+                <html lang="id">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Tabel Penilaian - ${'<?= date('F Y', strtotime($current_month . '-01')) ?>'}</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            color: #333;
+                        }
+                        h2 {
+                            text-align: center;
+                            color: #A41F13;
+                            margin-bottom: 30px;
+                            font-size: 24px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 0 auto;
+                            font-size: 12px;
+                        }
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            text-align: left;
+                            vertical-align: top;
+                        }
+                        th {
+                            background-color: #A41F13;
+                            color: white;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            font-size: 11px;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f9f9f9;
+                        }
+                        tr:hover {
+                            background-color: #f5f5f5;
+                        }
+                        .no-column {
+                            width: 50px;
+                            text-align: center;
+                        }
+                        .nilai-column, .predikat-column {
+                            text-align: center;
+                            font-weight: bold;
+                        }
+                        .print-date {
+                            text-align: center;
+                            margin-bottom: 20px;
+                            font-size: 14px;
+                            color: #666;
+                        }
+                        @media print {
+                            body { margin: 0; }
+                            table { page-break-inside: auto; }
+                            tr { page-break-inside: avoid; page-break-after: auto; }
+                            th, td { padding: 6px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-date">
+                        Dicetak pada: ${new Date().toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                    </div>
+                    <h2>Tabel Penilaian Ekstrakurikuler</h2>
+                    <h3 style="text-align: center; margin-bottom: 20px;">Bulan: ${'<?= date('F Y', strtotime($current_month . '-01')) ?>'}</h3>
+                    ${tableContent.prop('outerHTML')}
+                </body>
+                </html>
+            `;
+
+            // Write content to print window
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+
+            // Wait for content to load then print
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        };
 
     });
 </script>

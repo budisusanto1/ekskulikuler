@@ -1,190 +1,146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($webDetail['title'] ?? 'Login'); ?></title>
-    <link rel="icon" type="image/png"
-        href="<?= base_url('images/default-logo.png'); ?>">
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Jost', sans-serif;
-            background: linear-gradient(to bottom, #A41F13, #85231b, #85150b);
-        }
-
-        .main {
-            width: 350px;
-            height: 520px;
-            background: #A41F13;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 5px 20px 50px #000;
-        }
-
-        /* ===== COMMON ===== */
-        .title-btn {
-            color: #fff;
-            font-size: 2em;
-            display: flex;
-            justify-content: center;
-            margin: 20px 0 30px;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        input {
-            width: 60%;
-            background: #e0dede;
-            display: block;
-            margin: 20px auto;
-            padding: 12px;
-            border: none;
-            outline: none;
-            border-radius: 5px;
-        }
-
-        button {
-            width: 60%;
-            height: 40px;
-            margin: 25px auto;
-            display: block;
-            color: #fff;
-            background: #A41F13;
-            font-size: 1em;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #bd281c;
-        }
-
-        .form-extras {
-            width: 80%;
-            margin: 0 auto;
-            font-size: 0.85em;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .form-extras a {
-            color: #A41F13;
-            text-decoration: none;
-        }
-
-        .error {
-            background: #ffdddd;
-            color: #900;
-            padding: 8px;
-            width: 80%;
-            margin: 0 auto 10px;
-            border-radius: 5px;
-            font-size: .85em;
-            text-align: center;
-        }
-
-        /* ===== GUEST ===== */
-        .guest {
-            padding-top: -5px;
-        }
-
-        /* ===== LOGIN ===== */
-        .login {
-            height: 480px;
-            background: #eee;
-            border-radius: 60% / 10%;
-            margin-top: 20px;
-            padding-top: 10px;
-        }
-
-        .login .title-btn {
-            color: #A41F13;
-            margin-top: 20px;
-        }
-
-        .g-recaptcha {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-    </style>
+   
 </head>
-
 <body>
 
-    <div class="main">
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="card border-light-subtle shadow-sm">
+            <div class="row g-0">
 
-        <!-- ===== GUEST ===== -->
-        <div class="guest">
-            <a href="<?= base_url('/signin') ?>" class="title-btn">
-                Sign In
-            </a>
-        </div>
-
-        <!-- ===== LOGIN ===== -->
-        <div class="login">
-            <form action="<?= base_url('/login') ?>" method="post">
-                <?= csrf_field() ?>
-
-                <span class="title-btn">Login</span>
-
-                <?php if (session()->getFlashdata('error')): ?>
-                    <div class="error">
-                        <?= session()->getFlashdata('error') ?>
+                <!-- LEFT -->
+                <div class="col-12 col-md-6 text-bg-primary d-flex align-items-center justify-content-center flex-column p-4">
+                    <div class="image-container mb-3 text-center">
+                        <img class="img-fluid rounded"
+                             src="<?= base_url('assets/img/2.png') ?>"
+                             alt="FastFood">
                     </div>
-                <?php endif; ?>
-
-                <input type="text" name="user" placeholder="Username"
-                    value="<?= old('user') ?>" required>
-
-                <input type="password" name="pass" placeholder="Password" required>
-
-                <div class="form-extras">
-                    <a href="<?= base_url('/forgotpass') ?>">Forgot password?</a>
+                    <h2 class="text-white text-center">Selamat datang di halaman login FastFood</h2>
+                    <p class="text-white text-center">Jangan lupa pesan makanannya 🍔🥤</p>
+                    <p class="text-white text-center">Belum punya akun? Daftar dulu ya.</p>
                 </div>
 
-                <!-- CAPTCHA -->
-                <div class="g-recaptcha" data-sitekey="6LeZQekqAAAAAPiNKQ3qaP5Rr-UrphqwjW894Am2"></div>
+                <!-- RIGHT -->
+                <div class="col-12 col-md-6">
+                    <div class="card-body p-4">
 
-                <div id="math-captcha" style="display:none;">
-                    <label class="form-extras">
-                        Berapakah hasil dari <?= esc($soal_captcha ?? '') ?>?
-                    </label>
-                    <input type="text" name="captcha_jawaban">
+                        <h3 class="mb-4 text-center">Log in</h3>
+
+                        <!-- ERROR -->
+                        <?php if (session()->getFlashdata('error')): ?>
+                            <div class="alert alert-danger text-center">
+                                <?= session()->getFlashdata('error') ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- FORM -->
+                        <form action="<?= base_url('/login') ?>" method="post">
+                            <?= csrf_field() ?>
+
+                            <!-- USERNAME -->
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text"
+                                           name="user"
+                                           class="form-control"
+                                           value="<?= old('user') ?>"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- PASSWORD -->
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password"
+                                       name="pass"
+                                       class="form-control"
+                                       required>
+                            </div>
+
+                            <!-- CAPTCHA ONLINE -->
+                             <div class="g-recaptcha" data-sitekey="6LeZQekqAAAAAPiNKQ3qaP5Rr-UrphqwjW894Am2"></div>
+
+                            <!-- CAPTCHA OFFLINE -->
+                            <div id="math-captcha" class="mt-3" style="display:none;">
+                                <label class="form-label text-center d-block">
+                                    Berapakah hasil dari <?= esc($soal_captcha ?? '') ?>?
+                                </label>
+                                <input type="text"
+                                       name="captcha_jawaban"
+                                       class="form-control text-center">
+                            </div>
+
+                            <input type="hidden" name="is_online" id="is_online" value="1">
+
+                            <!-- BUTTON (SAMA KAYAK TEMPLATE PERTAMA) -->
+                            <div class="d-grid mt-4">
+                                <button class="btn btn-primary" type="submit">
+                                    Log in now
+                                </button>
+                            </div>
+                        </form>
+
+                        <hr class="mt-4">
+
+                        <!-- LINKS -->
+                        <div class="d-flex justify-content-between">
+                            <a href="<?= base_url('/register') ?>" class="text-decoration-none">
+                                Create new account
+                            </a>
+                            <a href="<?= base_url('/forgotpass') ?>" class="text-decoration-none">
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <!-- SOCIAL -->
+                        <p class="mt-4 text-center">Or sign in with</p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="#" class="btn btn-outline-primary">
+                                <img src="<?= base_url('assets/img/google.png') ?>" width="20"> Google
+                            </a>
+                            <a href="#" class="btn btn-outline-primary">
+                                <img src="<?= base_url('assets/img/feb.png') ?>" width="20"> Facebook
+                            </a>
+                            <a href="#" class="btn btn-outline-primary">
+                                <img src="<?= base_url('assets/img/twi.png') ?>" width="20"> Twitter
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
 
-                <input type="hidden" name="is_online" id="is_online" value="1">
-
-                <button type="submit">Login</button>
-            </form>
+            </div>
         </div>
-
     </div>
+</section>
 
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script>
-        window.addEventListener('load', () => {
-            const online = navigator.onLine;
-            document.getElementById('is_online').value = online ? '1' : '0';
+<!-- JS -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            document.querySelector('.g-recaptcha').style.display = online ? 'flex' : 'none';
-            document.getElementById('math-captcha').style.display = online ? 'none' : 'block';
-        });
-    </script>
+<script>
+    window.addEventListener('load', () => {
+        const online = navigator.onLine;
+        document.getElementById('is_online').value = online ? '1' : '0';
+
+        document.querySelector('.g-recaptcha').style.display = online ? 'flex' : 'none';
+        document.getElementById('math-captcha').style.display = online ? 'none' : 'block';
+    });
+</script>
 
 </body>
 </html>

@@ -64,44 +64,68 @@ class Pendaftaran extends BaseController
     //     echo view('pendaftaran', $parent);
     // }
 
-    public function index()
-    {
-        $level   = session()->get('level');
-        $id_user = session()->get('id_user');
+   public function index()
+{
+    $level   = session()->get('level');
+    $id_user = session()->get('id_user');
 
-        if (!in_array($level, [1, 2, 3])) {
-            return redirect()->to('/');
-        }
+    if (!in_array($level, [1, 2, 3])) {
+        return redirect()->to('/');
+    }
 
-        // default
-        $mode = $this->request->getGet('mode') ?? 'ekskul';
+    // default mode
+    $mode = $this->request->getGet('mode') ?? 'ekskul';
 
-        if ($level == 2) {
-            $guru = $this->db->table('guru')
-                ->where('id_user', $id_user)
+    // ==========================
+    // MODE KHUSUS GURU (LEVEL 2)
+    // ==========================
+    if ($level == 2) {
+        $guru = $this->db->table('guru')
+            ->where('id_user', $id_user)
+            ->get()
+            ->getRow();
+
+        if ($guru) {
+            $wali = $this->db->table('rombel')
+                ->where('id_guru', $guru->id_guru)
                 ->get()
                 ->getRow();
 
-            if ($guru) {
-                $wali = $this->db->table('rombel')
-                    ->where('id_guru', $guru->id_guru)
-                    ->get()
-                    ->getRow();
-
-                // kalau wali kelas & belum pilih manual
-                if ($wali && !$this->request->getGet('mode')) {
-                    $mode = 'rombel';
-                }
+            // kalau wali kelas & belum pilih manual
+            if ($wali && !$this->request->getGet('mode')) {
+                $mode = 'rombel';
             }
         }
-
-        $parent['mode']   = $mode;
-        $parent['daftar'] = $this->model->DaftarDataByRole($level, $id_user, $mode);
-
-        echo view('header');
-        echo view('menu');
-        echo view('pendaftaran', $parent);
     }
+
+    // ==========================
+    // DATA TABEL
+    // ==========================
+    $parent['mode']   = $mode;
+    $parent['daftar'] = $this->model->DaftarDataByRole($level, $id_user, $mode);
+
+    // ==========================
+    // 🔥 TAMBAHAN PENTING
+    // HITUNG JUMLAH EKSKUL SISWA
+    // ==========================
+    $jumlahEkskul = 0;
+
+    if ($level == 3) { // KHUSUS SISWA
+        $siswa = $this->msiswa->getByUserId($id_user);
+        if ($siswa) {
+            $jumlahEkskul = $this->model->countBySiswa($siswa->id_siswa);
+        }
+    }
+
+    $parent['jumlahEkskul'] = $jumlahEkskul;
+
+    // ==========================
+    // LOAD VIEW
+    // ==========================
+    echo view('header');
+    echo view('menu');
+    echo view('pendaftaran', $parent);
+}
 
 
     public function formdaftar()

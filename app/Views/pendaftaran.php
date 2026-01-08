@@ -626,10 +626,22 @@
                         <?php } ?>
 
                         <!-- Add Button -->
-                        <a href="<?= base_url('/inputdaftar') ?>" class="btn btn-success add-btn">
-                            <i class="fa fa-plus-circle"></i>
-                            <span>Daftar Ekskul</span>
-                        </a>
+                 <!-- Add Button -->
+<?php if (session()->get('level') == 3 && isset($jumlahEkskul) && $jumlahEkskul >= 4): ?>
+    <!-- SISWA SUDAH 4 EKSKUL -->
+    <button class="btn btn-secondary add-btn" disabled
+        title="Maksimal 4 ekskul">
+        <i class="fa fa-lock"></i>
+        <span>Maksimal 4 Ekskul</span>
+    </button>
+<?php else: ?>
+    <!-- ADMIN / GURU / SISWA < 4 -->
+    <a href="<?= base_url('/inputdaftar') ?>" class="btn btn-success add-btn">
+        <i class="fa fa-plus-circle"></i>
+        <span>Daftar Ekskul</span>
+    </a>
+<?php endif; ?>
+
 
                         <!-- Table Container -->
                         <div class="table-container">

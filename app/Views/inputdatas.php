@@ -222,47 +222,84 @@
                     </div>
 
                     <!-- Siswa Form -->
-                    <div class="tab-pane fade" id="siswa-form" role="tabpanel">
-                        <h3>Tambah Siswa</h3>
-                        <form action="<?= base_url('/inputsiswa') ?>" method="POST">
-                            <div class="mb-3">
-                                <label class="form-label">NIS</label>
-                                <input type="text" class="form-control" name="nis" placeholder="Nomor Induk Siswa" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Siswa</label>
-                                <input type="text" class="form-control" name="nama_siswa" placeholder="Nama lengkap siswa" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Rombel</label>
-                                <select class="form-select" name="id_rombel" required>
-                                    <option value="">--Pilih Rombel--</option>
-                                    <?php foreach ($rombel as $r): ?>
-                                        <option value="<?= $r->id_rombel ?>"><?= $r->nama_rombel ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+              <div class="tab-pane fade" id="siswa-form" role="tabpanel">
+             <h3>Tambah Siswa</h3>
+                <form action="<?= base_url('/inputsiswa') ?>" method="POST">
+                <div class="mb-3">
+            <label class="form-label">NIS</label>
+            <input type="text" class="form-control" name="nis" placeholder="Nomor Induk Siswa" required>
+                 </div>
+                <div class="mb-3">
+            <label class="form-label">Nama Siswa</label>
+            <input type="text" class="form-control" name="nama_siswa" placeholder="Nama lengkap siswa" required>
+            </div>
 
-                            <hr>
+            <!-- Tempat Lahir -->
+          <div class="mb-3">
+            <label class="form-label">Tempat Lahir</label>
+            <input type="text" class="form-control" name="tempat_lahir" placeholder="Tempat lahir siswa" required>
+        </div>
 
-                            <h5>Data User</h5>
+        <!-- Tanggal Lahir -->
+        <div class="mb-3">
+            <label class="form-label">Tanggal Lahir</label>
+            <input type="date" class="form-control" name="tanggal_lahir" required>
+        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Username untuk login" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email siswa" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password untuk login" required>
-                            </div>
+        <!-- Jenis Kelamin -->
+        <div class="mb-3">
+            <label class="form-label">Jenis Kelamin</label>
+            <select class="form-select" name="jenis_kelamin" required>
+                <option value="">--Pilih jenis kelamin--</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+        </div>
 
-                            <button type="submit" class="btn btn-submit">Simpan</button>
-                        </form>
-                    </div>
+        <!-- Alamat -->
+        <div class="mb-3">
+            <label class="form-label">Alamat</label>
+            <textarea class="form-control" name="alamat" placeholder="Alamat lengkap siswa" rows="3" required></textarea>
+        </div>
+
+        <!-- No HP -->
+        <div class="mb-3">
+            <label class="form-label">No. HP</label>
+            <input type="text" class="form-control" name="no_hp" placeholder="Nomor HP siswa" required>
+        </div>
+
+        <!-- Rombel -->
+        <div class="mb-3">
+            <label class="form-label">Rombel</label>
+            <select class="form-select" name="id_rombel" required>
+                <option value="">--Pilih Rombel--</option>
+                <?php foreach ($rombel as $r): ?>
+                    <option value="<?= $r->id_rombel ?>"><?= $r->nama_rombel ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <hr>
+
+        <h5>Data User</h5>
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username untuk login" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Email siswa" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password untuk login" required>
+        </div>
+
+        <button type="submit" class="btn btn-submit">Simpan</button>
+    </form>
+</div>
+
 
                     <!-- Kelas Form -->
                     <div class="tab-pane fade" id="kelas-form" role="tabpanel">
@@ -330,38 +367,81 @@
                     </div>
 
                     <!-- Guru Form -->
-                    <div class="tab-pane fade" id="guru-form" role="tabpanel">
-                        <h3>Tambah Guru</h3>
-                        <form action="<?= base_url('/inputguru') ?>" method="POST">
-                            <div class="mb-3">
-                                <label class="form-label">NIP</label>
-                                <input type="text" class="form-control" name="nip" placeholder="Nomor Induk Pegawai" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Guru</label>
-                                <input type="text" class="form-control" name="nama_guru" placeholder="Nama lengkap guru" required>
-                            </div>
+                  <div class="tab-pane fade" id="guru-form" role="tabpanel">
+    <h3>Tambah Guru</h3>
+    <form action="<?= base_url('/inputguru') ?>" method="POST">
+        <!-- NIP -->
+        <div class="mb-3">
+            <label class="form-label">NIP</label>
+            <input type="text" class="form-control" name="nip" placeholder="Nomor Induk Pegawai" required>
+        </div>
 
-                            <hr>
+        <!-- Nama Guru -->
+        <div class="mb-3">
+            <label class="form-label">Nama Guru</label>
+            <input type="text" class="form-control" name="nama_guru" placeholder="Nama lengkap guru" required>
+        </div>
 
-                            <h5>Data User</h5>
+        <!-- Tempat Lahir -->
+        <div class="mb-3">
+            <label class="form-label">Tempat Lahir</label>
+            <input type="text" class="form-control" name="tempat_lahir" placeholder="Tempat lahir guru" required>
+        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Username untuk login" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email guru" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password untuk login" required>
-                            </div>
+        <!-- Tanggal Lahir -->
+        <div class="mb-3">
+            <label class="form-label">Tanggal Lahir</label>
+            <input type="date" class="form-control" name="tanggal_lahir" required>
+        </div>
 
-                            <button type="submit" class="btn btn-submit">Simpan</button>
-                        </form>
-                    </div>
+        <!-- Jenis Kelamin -->
+        <div class="mb-3">
+            <label class="form-label">Jenis Kelamin</label>
+            <select class="form-select" name="jenis_kelamin" required>
+                <option value="">--Pilih jenis kelamin--</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+        </div>
+
+        <!-- Alamat -->
+        <div class="mb-3">
+            <label class="form-label">Alamat</label>
+            <textarea class="form-control" name="alamat" placeholder="Alamat lengkap guru" rows="3" required></textarea>
+        </div>
+
+        <!-- No HP -->
+        <div class="mb-3">
+            <label class="form-label">No. HP</label>
+            <input type="text" class="form-control" name="no_hp" placeholder="Nomor HP guru" required>
+        </div>
+
+        <hr>
+
+        <h5>Data User</h5>
+
+        <!-- Username -->
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username untuk login" required>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Email guru" required>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password untuk login" required>
+        </div>
+
+        <button type="submit" class="btn btn-submit">Simpan</button>
+    </form>
+</div>
+
 
                     <!-- Ekskul Form -->
                     <div class="tab-pane fade" id="ekskul-form" role="tabpanel">

@@ -31,6 +31,11 @@ class Siswa extends BaseController
             'nis'        => $this->request->getPost('nis'),
             'nama_siswa' => $this->request->getPost('nama_siswa'),
             'id_rombel'  => $this->request->getPost('id_rombel'),
+            'no_hp'  => $this->request->getPost('no_hp'),
+           'alamat'  => $this->request->getPost('alamat'),
+           'jenis_kelamin'  => $this->request->getPost('jenis_kelamin'),
+            'tempat_lahir'  => $this->request->getPost('tempat_lahir'),
+          'tanggal_lahir'  => $this->request->getPost('tanggal_lahir'),
             'id_user'    => $id_user,
         ];
 
@@ -77,6 +82,11 @@ class Siswa extends BaseController
         $siswaData = [
             'nis' => $this->request->getPost('nis'),
             'nama_siswa' => $this->request->getPost('nama_siswa'),
+              'no_hp'  => $this->request->getPost('no_hp'),
+           'alamat'  => $this->request->getPost('alamat'),
+           'jenis_kelamin'  => $this->request->getPost('jenis_kelamin'),
+            'tempat_lahir'  => $this->request->getPost('tempat_lahir'),
+          'tanggal_lahir'  => $this->request->getPost('tanggal_lahir'),
             'id_rombel' => $this->request->getPost('id_rombel'),
         ];
         $this->model->update($id_siswa, $siswaData);
